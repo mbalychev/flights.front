@@ -6,6 +6,8 @@ import {
 import { Home } from './pages/Home';
 import { LayoutPage } from './pages/LayoutPage';
 import { Flights } from './pages/flights/flights';
+import { Layout } from 'antd';
+import { Content, Header } from 'antd/es/layout/layout';
 
 export const links = {
     flights: (id: number) => `/flights/${id}`
@@ -13,15 +15,27 @@ export const links = {
 
 export const Router = () => {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route index element={<Home />} />
-                <Route path="/" element={<LayoutPage />} />
-                <Route path="flights/*" element={<Flights />}>
-                    <Route path="find" element={<Flights />} />
-                    <Route path=":id" element={<Flights />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
+        <div>
+
+            <BrowserRouter>
+                <Routes>
+                    <Route index element={<Home />} />
+                    <Route path="flights/*" element={<Flights />}>
+                        <Route path="find" element={<Flights />} />
+                        <Route path=":id" element={<Flights />} />
+                    </Route>
+                    {/* <Route path="/" element={<LayoutPage />}> */}
+                    {/* </Route> */}
+                </Routes>
+            </BrowserRouter>
+            <Layout className="layout">
+                <Header style={{ display: 'flex', alignItems: 'center' }}>
+
+                </Header>
+                <Content style={{ padding: '0 50px' }}>
+
+                </Content>
+            </Layout>
+        </div>
     )
 }
