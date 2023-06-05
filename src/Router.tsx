@@ -4,7 +4,7 @@ import {
     Route
 } from 'react-router-dom';
 import { Home } from './pages/Home';
-import { Layout } from './pages/Layout';
+import { LayoutPage } from './pages/LayoutPage';
 import { Flights } from './pages/flights/flights';
 
 export const links = {
@@ -16,7 +16,7 @@ export const Router = () => {
         <BrowserRouter>
             <Routes>
                 <Route index element={<Home />} />
-                <Route path="/" element={<Layout />} />
+                <Route path="/" element={<LayoutPage />} />
                 <Route path="flights/*" element={<Flights />}>
                     <Route path="find" element={<Flights />} />
                     <Route path=":id" element={<Flights />} />
