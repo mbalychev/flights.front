@@ -47,16 +47,12 @@ export const LayoutMenu = () => {
   const items = [
     {
       key: '/flights',
-      label: 'Part 1',
+      label: 'Онлайн табло',
     },
     {
-      key: 'part-2',
-      label: 'Part 2',
-    },
-    {
-      key: 'part-3',
-      label: 'Part 3',
-    },
+      key: '/bookings',
+      label: 'Бронирование',
+    }
   ]
 
   const select = (keyPath: string) => {
@@ -69,44 +65,12 @@ export const LayoutMenu = () => {
     // <Layout className="layout">
     <Header style={{ display: 'flex', alignItems: 'center', color: 'white' }}>
       <HeaderLeftContainer style={{ color: 'whitesmoke' }}>
-        menu
         <Menu
           theme="dark"
           mode="horizontal"
           items={items} onClick={({ key, keyPath }) => select(keyPath.toString())}>
         </Menu>
-        <Link to={'/flights'}>LINK </Link>
-        <Link to={'/'}>Home </Link>
       </HeaderLeftContainer>
     </Header>
-    // <Layout className="site-layout">
-    /* <Content
-      className="site-layout-background"
-
-    >
-      {/* <Outlet />
-    </Content> */
-    // </Layout>
-    // </Layout>
-
-    // <Layout>
-    //     <div>
-    //         <Link to={'/flights'}>
-    //             Организации
-    //         </Link>
-    //     </div>
-    //     <Layout className="site-layout">
-    //         <Content
-    //             className="site-layout-background"
-    //             style={{
-    //                 margin: 16,
-    //                 padding: 24,
-    //                 minHeight: 280,
-    //             }}
-    //         >
-    //             <Outlet />
-    //         </Content>
-    //     </Layout>
-    // </Layout>
   )
 }
