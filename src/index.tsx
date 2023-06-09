@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Router } from './Router';
+import { Layout } from 'antd';
+import { Content, Footer, Header } from 'antd/es/layout/layout';
+import { LayoutMenu } from './pages/LayoutMenu';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+    {/* <LayoutMenu /> */}
+    {/* <Layout className="layout">
+      <Header style={{ display: 'flex', alignItems: 'center', color: 'white' }}>
+      </Header> */}
     <Router />
+    {/* </Layout> */}
   </React.StrictMode>
 );
 
