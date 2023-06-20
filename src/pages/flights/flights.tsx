@@ -1,43 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { IFlightResponse } from "../../models/flights";
+import { IFlight, IFlightResponse } from "../../models/flights";
 import { getFlights } from "../../api/flights/flights";
 import { IPagination } from '../../models/pagination';
 import { IFilterFlights } from "../../api/flights/flights.intefaces";
 import { IApiError } from "../../models/error";
+import { useFlights } from "../../store/flights";
+import { error } from 'console';
 
-const pagination: IPagination = {
-    page: 1,
-    onPage: 10,
-    total: 0
-}
-const filter: IFilterFlights = {
-    pagination: pagination,
-    arrival: 'SVO',
-    status: 'Scheduled',
-    scheduledArriveMin: new Date('2016.01.01').toISOString(),
-    scheduledArriveMax: new Date('2023.01.01').toISOString()
-}
 
 export const Flights = () => {
 
-    const [flights, setFlights] = useState<IFlightResponse>();
+    const [flights, setFlights] = useState<IFlight[]>();
     const [error, setError] = useState<IApiError>();
+    const store = useFlights();
 
     const load = async () => {
 
-        const resp = await getFlights(filter);
+        if (store.loading)
+            setFlights(store.state.flights);
 
-        if ('error' in resp) {
-            setError(resp as IApiError);
-            return;
-        }
-
-        setFlights(resp as IFlightResponse);
     }
 
     useEffect(() => {
         load();
-    }, [])
+    }, [store.loading])
+
+    useEffect(() => {
+        if (store.state.error) {
+            setError(store.state.error);
+        }
+    }, [store.loading, store.state.error])
 
     return (
         <h2>Онлайн табло</h2>
