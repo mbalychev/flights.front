@@ -1,3 +1,5 @@
+import { IFilterFlights } from "../api/flights/flights.intefaces";
+
 export interface IFlightResponse {
     page: number;
     onPage: number;

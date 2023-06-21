@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { IPagination } from '../../models/pagination';
 import { IApiError } from "../../models/error";
-import { IStoreFlight, getFlightsFx, useFlights, setPaginationFx } from '../../store/flights';
+import { getFlightsFx, useFlights, setPaginationFx } from '../../store/flights';
 import { FilterFlights } from "./filter";
 import { PaginationInit } from "../../utils/init/paginations";
 import { PaginationsComponent } from "../../components/common/PaginationsComponent";
@@ -9,32 +9,17 @@ import { Table } from "antd";
 import { IFlight } from "../../models/flights";
 import { ColumnsType } from "antd/es/table";
 import { IFilterFlights } from "../../api/flights/flights.intefaces";
+import { ErrorComponent } from "../../components/common/Error";
 
 interface IFlightsModel extends IFlight {
     key: number;
 }
 
-
 export const Flights = () => {
 
     const [error, setError] = useState<IApiError>();
-    const [pagination, setPagination] = useState<IPagination>(PaginationInit());
+    const [pagination, setPagination] = useState<IPagination>(PaginationInit);
     const store = useFlights();
-
-    const filter: IFilterFlights = {
-        pagination: pagination,
-        arrival: 'SVO',
-        status: 'Scheduled',
-        scheduledArriveMin: new Date('2016.01.01').toISOString(),
-        scheduledArriveMax: new Date('2023.01.01').toISOString()
-    }
-
-    const load = async () => {
-
-        getFlightsFx(filter);
-
-    }
-
     const flights: IFlightsModel[] = useMemo(() => {
 
         if (!store.loading) {
@@ -62,10 +47,6 @@ export const Flights = () => {
         }]
 
     useEffect(() => {
-        load();
-    }, [])
-
-    useEffect(() => {
         if (store.state.error) {
             setError(store.state.error);
         }
@@ -73,19 +54,28 @@ export const Flights = () => {
 
 
     const onPaginationChange = (pagination: IPagination) => {
-        setPagination(pagination);
-        getFlightsFx({ ...filter, pagination: pagination });
+        setPaginationFx(pagination);
+    }
+
+    const filterSubmit = async (filter: IFilterFlights) => {
+        return await getFlightsFx(filter);
     }
 
     return (
         <>
-            <FilterFlights />
-            <Table
-                columns={flightsColumns}
-                dataSource={flights}
-                pagination={false}
-            />
-            <PaginationsComponent onChange={(p) => onPaginationChange(p)} pagination={pagination} />
+            <FilterFlights search={filterSubmit} />
+            {(error) ?
+                <ErrorComponent error={error} />
+                :
+                <>
+                    <Table
+                        columns={flightsColumns}
+                        dataSource={flights}
+                        pagination={false}
+                        loading={store.loading}
+                    />
+                    <PaginationsComponent onChange={(p) => onPaginationChange(p)} pagination={pagination} />
+                </>}
         </>
     )
 }

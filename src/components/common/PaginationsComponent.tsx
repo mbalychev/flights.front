@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { IFilterFlights } from "../../api/flights/flights.intefaces";
 import { getFlights } from '../../api/flights/flights';
 import { useFlights } from "../../store/flights";
+import { PaginationInit } from "../../utils/init/paginations";
 
 export interface IPaginationComponent {
     // setTotal: () => number;
@@ -13,16 +14,12 @@ export interface IPaginationComponent {
 
 export const PaginationsComponent = (props: IPaginationComponent) => {
 
-    const [pagination, setPagination] = useState<IPagination>({ page: 1, onPage: 10, total: 0 });
+    const [pagination, setPagination] = useState<IPagination>(PaginationInit);
 
     useEffect(() => {
         if (props.pagination) { setPagination(props.pagination) }
 
     }, [props])
-
-    // useEffect(() => {
-    //     setPagination({...pagination, total: props.setTotal()})
-    // }, [props.setTotal])
 
     const changePagionation = (page: number, size: number) => {
         const newPagination = { ...pagination, page: page, onPage: size };
