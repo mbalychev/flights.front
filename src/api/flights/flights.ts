@@ -9,7 +9,6 @@ const url = '/api/Flights';
 
 export const getFlights = async (filter: IFilterFlights, pagination: IPagination): Promise<IFlightResponse | IApiError> => {
     const resp = await requestPost<IFlightResponse | IApiError>(`${url}`, { ...filter, pagination: { page: 0, onPage: 0 } });
-    // const resp = await requestPost<IFlightResponse | IApiError>(`${url}`, { ...filter, pagination: pagination });
 
     return resp;
 }

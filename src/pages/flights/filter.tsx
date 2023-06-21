@@ -1,7 +1,6 @@
 import Title from "antd/es/typography/Title"
 import { Button, Form, Layout, Select, Space } from 'antd';
 import { IFilterFlights } from '../../api/flights/flights.intefaces';
-import { IPagination } from "../../models/pagination";
 import { useState } from "react";
 
 interface IProps {

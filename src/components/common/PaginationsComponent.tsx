@@ -1,13 +1,9 @@
 import { Pagination } from "antd"
 import { IPagination } from '../../models/pagination';
-import { useEffect, useMemo, useState } from "react";
-import { IFilterFlights } from "../../api/flights/flights.intefaces";
-import { getFlights } from '../../api/flights/flights';
-import { useFlights } from "../../store/flights";
+import { useEffect, useState } from "react";
 import { PaginationInit } from "../../utils/init/paginations";
 
 export interface IPaginationComponent {
-    // setTotal: () => number;
     pagination: IPagination;
     onChange: (pagination: IPagination) => void;
 }
