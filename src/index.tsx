@@ -3,13 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Router } from './Router';
+import locale from 'antd/lib/locale/ru_RU';
+import { ConfigProvider } from 'antd';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const queryClient = new QueryClient();
+
 root.render(
   <React.StrictMode>
-    <Router />
+    <QueryClientProvider client={queryClient}>
+      <ConfigProvider locale={locale}>
+        <Router />
+      </ConfigProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

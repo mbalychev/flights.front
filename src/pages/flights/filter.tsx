@@ -1,7 +1,9 @@
 import Title from "antd/es/typography/Title"
-import { Button, Form, Layout, Select, Space } from 'antd';
+import { Button, Form, Select, Space, Spin } from 'antd';
 import { IFilterFlights } from '../../api/flights/flights.intefaces';
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { ITAirport } from "../../models/Thesaurus/TAiport";
+import { useThesaurus } from '../../hooks/thesaurus';
 
 interface IProps {
     search: (filter: IFilterFlights) => void;
@@ -17,21 +19,39 @@ const init: IFilterFlights = {
 export const FilterFlights = (props: IProps) => {
 
     const [filter, setFilter] = useState<IFilterFlights>(init);
+    const { airports: { ready, airportsState, isLoading } } = useThesaurus();
+    const [airports, setAiports] = useState<ITAirport[]>([]);
+
+    const loading = useMemo((): boolean => {
+        return isLoading;;
+    }, [isLoading])
+
+    useEffect(() => {
+        if (airportsState) {
+            setAiports(airportsState);
+        }
+    }, [ready])
 
     const search = (values: IFilterFlights) => {
-        props.search(filter);
+        props.search({ ...filter, arrival: values.arrival });
     }
 
     return (
         <>
             <Title level={5}>фильтр</Title>
+            <Spin spinning={loading}>
+
+            </Spin>
             <Space>
                 <Form
                     onFinish={search}
                     layout='inline'>
                     <Form.Item
+                        name='arrival'
                         label='место назначения'>
-                        <Select style={{ width: '200px' }} />
+                        <Select
+                            options={airports?.map(x => ({ value: x.code, label: x.name }))}
+                            style={{ width: '200px' }} />
                     </Form.Item>
                     <Form.Item>
                         <Button

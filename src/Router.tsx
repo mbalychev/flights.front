@@ -2,18 +2,20 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    useNavigate
 } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Flights } from './pages/flights/flights';
 import { LayoutMenu } from './pages/LayoutMenu';
 import { Bookings } from './pages/bookings/bookings';
+
 // import { Route } from 'react-router-dom';
 
 export const links = {
     flight: (id: number) => `/flights/${id}`,
     // flights: () => navigate('/fligts')
 }
+
+
 
 export const Router = () => {
 

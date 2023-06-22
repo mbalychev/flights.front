@@ -10,6 +10,8 @@ import { IFlight } from "../../models/flights";
 import { ColumnsType } from "antd/es/table";
 import { IFilterFlights } from "../../api/flights/flights.intefaces";
 import { ErrorComponent } from "../../components/common/Error";
+import { useThesaurus } from "../../hooks/thesaurus";
+import { ITAirport } from "../../models/Thesaurus/TAiport";
 
 interface IFlightsModel extends IFlight {
     key: number;
@@ -20,6 +22,8 @@ export const Flights = () => {
     const [error, setError] = useState<IApiError>();
     const [pagination, setPagination] = useState<IPagination>(PaginationInit);
     const store = useFlights();
+    const { airports: { airportsState, ready } } = useThesaurus();
+    const [airports, setAirports] = useState<ITAirport[]>([]);
     const flights: IFlightsModel[] = useMemo(() => {
 
         if (!store.loading) {
@@ -36,13 +40,29 @@ export const Flights = () => {
 
     }, [store.state])
 
+
+    useEffect(() => {
+        if (ready && airportsState) { setAirports(airportsState) }
+    }, [ready])
+
+    const getNameAirport = (code: string) => {
+        const name = airports.find(x => x.code == code)?.name;
+
+        return name;
+    }
+
     const flightsColumns: ColumnsType<IFlightsModel> = [
         {
             key: 'flightNo',
             title: 'No',
             dataIndex: 'flightNo',
-            render: n => <span>{n}</span>
-
+            render: nom => <span>{nom}</span>
+        },
+        {
+            key: 'arrival',
+            title: 'место назначения',
+            dataIndex: 'arrivalAirport',
+            render: code => <span>{getNameAirport(code)}</span>
 
         }]
 
