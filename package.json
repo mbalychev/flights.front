@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.1.4",
     "@tanstack/react-query": "^4.29.15",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,6 +15,7 @@
     "antd": "^5.5.2",
     "effector": "^22.8.6",
     "effector-react": "^22.5.3",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
