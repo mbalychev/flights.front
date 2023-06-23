@@ -24,6 +24,7 @@ export const Flights = () => {
     const store = useFlights();
     const { airports: { airportsState, ready } } = useThesaurus();
     const [airports, setAirports] = useState<ITAirport[]>([]);
+
     const flights: IFlightsModel[] = useMemo(() => {
 
         if (!store.loading) {
@@ -86,14 +87,12 @@ export const Flights = () => {
             <FilterFlights search={filterSubmit} />
             {(error) ?
                 <ErrorComponent error={error} />
-                :
-                <>
+                : <>
                     <Table
                         columns={flightsColumns}
                         dataSource={flights}
                         pagination={false}
-                        loading={store.loading}
-                    />
+                        loading={store.loading} />
                     <PaginationsComponent onChange={(p) => onPaginationChange(p)} pagination={pagination} />
                 </>}
         </>

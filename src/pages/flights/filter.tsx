@@ -4,21 +4,16 @@ import { IFilterFlights } from '../../api/flights/flights.intefaces';
 import { useEffect, useMemo, useState } from "react";
 import { ITAirport } from "../../models/Thesaurus/TAiport";
 import { useThesaurus } from '../../hooks/thesaurus';
+import { Status } from "../../components/common/Status";
 
 interface IProps {
     search: (filter: IFilterFlights) => void;
 }
 
-const init: IFilterFlights = {
-    arrival: 'SVO',
-    status: 'Scheduled',
-    scheduledArriveMin: new Date('2016.01.01').toISOString(),
-    scheduledArriveMax: new Date('2023.01.01').toISOString()
-}
 
 export const FilterFlights = (props: IProps) => {
 
-    const [filter, setFilter] = useState<IFilterFlights>(init);
+    const [filter, setFilter] = useState<IFilterFlights>();
     const { airports: { ready, airportsState, isLoading } } = useThesaurus();
     const [airports, setAiports] = useState<ITAirport[]>([]);
 
@@ -33,7 +28,7 @@ export const FilterFlights = (props: IProps) => {
     }, [ready])
 
     const search = (values: IFilterFlights) => {
-        props.search({ ...filter, arrival: values.arrival });
+        props.search(values);
     }
 
     return (
@@ -41,25 +36,43 @@ export const FilterFlights = (props: IProps) => {
             <Title level={5}>фильтр</Title>
             <Spin spinning={loading}>
 
+                <Space>
+                    <Form
+                        onFinish={search}
+                        layout='inline'>
+                        <Form.Item
+                            name='arrival'
+                            label='место назначения'>
+                            <Select
+                                options={airports?.map(x => ({ value: x.code, label: x.name }))}
+                                style={{ width: '200px' }} />
+                        </Form.Item>
+                        <Form.Item
+                            name='status'
+                            label='статус'>
+                            {/* не передает значение */}
+                            {/* <Status width={`200px`} /> */}
+                            <Select
+                                style={{ width: '100px' }}
+                                defaultValue={null}
+                                options={[
+                                    { value: null, label: 'Все' },
+                                    { value: 'Departed', label: 'Отбыл' },
+                                    { value: 'Arrived', label: 'Прибыл' },
+                                    { value: 'On Time', label: 'Вовремя' },
+                                    { value: 'Cancelled', label: 'Отменен' },
+                                    { value: 'Delayed', label: 'Отложенный' },
+                                    { value: 'Scheduled', label: 'Планируется' }
+                                ]} />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button
+                                htmlType="submit"
+                                type='primary'> найти </Button>
+                        </Form.Item>
+                    </Form>
+                </Space>
             </Spin>
-            <Space>
-                <Form
-                    onFinish={search}
-                    layout='inline'>
-                    <Form.Item
-                        name='arrival'
-                        label='место назначения'>
-                        <Select
-                            options={airports?.map(x => ({ value: x.code, label: x.name }))}
-                            style={{ width: '200px' }} />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button
-                            htmlType="submit"
-                            type='primary'> найти </Button>
-                    </Form.Item>
-                </Form>
-            </Space>
         </>
     )
 }

@@ -16,6 +16,7 @@ export const useThesaurus = () => {
     } = useQuery({
         queryKey: ['todos'],
         queryFn: thesaurusAPI.getTAirports,
+        staleTime
     });
 
     // const thesauruReady = (
