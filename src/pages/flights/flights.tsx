@@ -15,6 +15,7 @@ import { ITAirport } from "../../models/Thesaurus/TAiport";
 import { StatusRus } from "../../utils/init/status";
 import { ExclamationCircleOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
+import { ITAircrafts } from "../../models/Thesaurus/TAircrafts";
 
 interface IFlightsModel extends IFlight {
     key: number;
@@ -25,8 +26,10 @@ export const Flights = () => {
     const [error, setError] = useState<IApiError>();
     const [pagination, setPagination] = useState<IPagination>(PaginationInit);
     const store = useFlights();
-    const { airports: { airportsState, ready } } = useThesaurus();
+    const { airports: { airportsState, ready: readyAirports },
+        aircrafts: { aircraftsState, ready: readyAircrafts } } = useThesaurus();
     const [airports, setAirports] = useState<ITAirport[]>([]);
+    const [aircrafts, setAircrafts] = useState<ITAircrafts[]>([]);
 
     const flights: IFlightsModel[] = useMemo(() => {
 
@@ -46,11 +49,19 @@ export const Flights = () => {
 
 
     useEffect(() => {
-        if (ready && airportsState) { setAirports(airportsState) }
-    }, [ready])
+        if (readyAirports && airportsState) { setAirports(airportsState) }
+        if (readyAircrafts && aircraftsState) { setAircrafts(aircraftsState) }
+    }, [readyAirports, readyAircrafts])
 
     const getNameAirport = (code: string) => {
         const name = airports.find(x => x.code == code)?.name;
+
+        return name;
+    }
+    const getNameAircraft = (code: string) => {
+
+        const name = aircrafts.find(x => x.code == code)?.model;
+        // if (name) { return 'не определено'; }
 
         return name;
     }
@@ -60,8 +71,6 @@ export const Flights = () => {
         if (!actualDeparture) { return <></> }
 
         const delay = moment.duration(moment(actualDeparture).diff(scheduledDeparture));
-        // actualDeparture:    "2017-07-16T06:44:00Z"
-        // scheduledDeparture: "2017-07-16T06:35:00Z"
         const content = (
             <>
                 {`задержка вылета на ${delay.asMinutes()} минут`}
@@ -112,6 +121,12 @@ export const Flights = () => {
                 </>
             )
 
+        },
+        {
+            key: 'aircraftCode',
+            title: 'судно',
+            dataIndex: 'aircraftCode',
+            render: code => <span>{getNameAircraft(code)}</span>
         },
         {
             key: 'arrival',

@@ -14,8 +14,21 @@ export const useThesaurus = () => {
         error: airportsError,
         isLoading: airportsIsLoading
     } = useQuery({
-        queryKey: ['todos'],
+        queryKey: ['airports'],
         queryFn: thesaurusAPI.getTAirports,
+        staleTime
+    });
+
+    //возд суда
+    const {
+        data: aircraftsState,
+        isSuccess: isAircraftsStatesSuccess,
+        isError: aircraftsIsError,
+        error: aircraftsError,
+        isLoading: aircraftsIsLoading
+    } = useQuery({
+        queryKey: ['aircrafts'],
+        queryFn: thesaurusAPI.getTAircrafts,
         staleTime
     });
 
@@ -31,6 +44,14 @@ export const useThesaurus = () => {
             isError: airportsIsError,
             error: airportsError,
             isLoading: airportsIsLoading
+        },
+        aircrafts: {
+            ready: isAircraftsStatesSuccess,
+            aircraftsState,
+            isSuccess: isAircraftsStatesSuccess,
+            isError: aircraftsIsError,
+            error: aircraftsError,
+            isLoading: aircraftsIsLoading
         }
     }
 }
