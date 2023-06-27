@@ -4,7 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Router } from './Router';
 import locale from 'antd/lib/locale/ru_RU';
-import { ConfigProvider } from 'antd';
+import { Col, ConfigProvider, Row } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const root = ReactDOM.createRoot(
