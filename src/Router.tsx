@@ -7,34 +7,54 @@ import { Home } from './pages/Home';
 import { Flights } from './pages/flights/flights';
 import { LayoutMenu } from './pages/LayoutMenu';
 import { Bookings } from './pages/bookings/bookings';
-import { Col, Row } from 'antd';
-import background from "../src/images/airport.jpeg"
-// import { Route } from 'react-router-dom';
+import { Layout } from 'antd';
+import { Content, Footer, Header } from 'antd/es/layout/layout';
+import Sider from 'antd/es/layout/Sider';
+
 export const links = {
     flight: (id: number) => `/flights/${id}`,
-    // flights: () => navigate('/fligts')
 }
 
 
+const footerStyle: React.CSSProperties = {
+    textAlign: 'center',
+    marginBottom: 'auto',
+    color: '#fff',
+    height: '3vh',
+    backgroundColor: '#3a427830',
+};
+const headerStyle: React.CSSProperties = {
+    textAlign: 'center',
+    color: '#fff',
+    height: '3vh',
+    fontSize: 'small',
+    backgroundColor: '#3a427830',
+};
+
+const contentStyle: React.CSSProperties = {
+    textAlign: 'left',
+    height: '94vh',
+    color: '#01081d',
+    padding: '30px', overflow: 'hidden',
+    backgroundColor: '#dbddea30',
+};
+const siderStyle: React.CSSProperties = {
+    textAlign: 'center',
+    color: '#a1aac3',
+    backgroundColor: '#989fc830',
+};
 
 export const Router = () => {
 
     return (
         <BrowserRouter>
-            <LayoutMenu />
-            <Row>
-                <Col span={8}>
-                    <div style={{ paddingLeft: '10%', marginTop: '20vh' }}>
-                        <img src={background} style={{ width: '80%', borderRadius: '20px' }} />
-                    </div>
-                </Col>
-                <Col
-                    span={16}
-                    style={{
-                        marginLeft: 'auto',
-                        marginRight: 'auto'
-                    }}>
-                    <div style={{ padding: '5vh' }}>
+            <Layout>
+                <Header style={headerStyle}>Header</Header>
+                <Layout hasSider>
+                    <Sider style={siderStyle}>
+                        <LayoutMenu />
+                    </Sider>
+                    <Content style={contentStyle}>
                         <Routes>
                             <Route index element={<Home />} />
                             <Route path="flights/*" element={<Flights />}>
@@ -45,12 +65,11 @@ export const Router = () => {
                                 <Route path="find" element={<Bookings />} />
                                 <Route path=":id" element={<Bookings />} />
                             </Route>
-                            {/* <Route path="/" element={<LayoutPage />}> */}
-                            {/* </Route> */}
                         </Routes>
-                    </div>
-                </Col>
-            </Row>
+                    </Content>
+                </Layout>
+                <Footer style={footerStyle}>Footer</Footer>
+            </Layout>
         </BrowserRouter>
     )
 }

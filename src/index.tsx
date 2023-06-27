@@ -4,8 +4,11 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Router } from './Router';
 import locale from 'antd/lib/locale/ru_RU';
-import { Col, ConfigProvider, Row } from 'antd';
+import { Col, ConfigProvider, Layout } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Content, Footer, Header } from 'antd/es/layout/layout';
+import Sider from 'antd/es/layout/Sider';
+import { LayoutMenu } from './pages/LayoutMenu';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

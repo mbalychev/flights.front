@@ -2,54 +2,47 @@ import { Layout, Menu } from "antd";
 import React from "react";
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
-import { HomeOutlined } from "@ant-design/icons";
+import { MdOutlineConnectingAirports } from 'react-icons/md';
+import { PiTicketDuotone } from 'react-icons/pi';
+import { CiAirportSign1 } from 'react-icons/ci';
 
 const { Header } = Layout;
 
-const HeaderLeftContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 24px;
-`;
+const iconStyle: React.CSSProperties = {
+  fontSize: '24px',
+  color: '#200038',
+};
 
 export const LayoutMenu = () => {
   const navigate = useNavigate();
   const items = [
     {
       key: '/',
-      icon: <HomeOutlined />
-      // label: 'Онлайн табло',
+      icon: <CiAirportSign1 style={iconStyle} />,
+      label: 'Домашняя'
     },
     {
       key: '/flights',
+      icon: <MdOutlineConnectingAirports style={iconStyle} />,
       label: 'Онлайн табло',
     },
     {
       key: '/bookings',
+      icon: <PiTicketDuotone style={iconStyle} />,
       label: 'Бронирование',
     }
   ]
 
   const select = (keyPath: string) => {
     navigate(keyPath);
-    console.log(`${keyPath} `);
   }
 
   return (
-    // <Layout className="layout">
-    <Header style={{
-      display: 'flex',
-      alignItems: 'center',
-      textAlign: 'center',
-      color: 'white'
-    }}>
-      <HeaderLeftContainer style={{ color: 'whitesmoke' }}>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          items={items} onClick={({ key, keyPath }) => select(keyPath.toString())}>
-        </Menu>
-      </HeaderLeftContainer>
-    </Header>
+    <Menu
+      theme="light"
+      style={{ background: 'rgba(0, 0, 0, 0)' }}
+      mode="inline"
+      items={items} onClick={({ key, keyPath }) => select(keyPath.toString())}>
+    </Menu >
   )
 }

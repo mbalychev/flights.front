@@ -5,7 +5,7 @@ import { getFlightsFx, useFlights, setPaginationFx } from '../../store/flights';
 import { FilterFlights } from "./filter";
 import { PaginationInit } from "../../utils/init/paginations";
 import { PaginationsComponent } from "../../components/common/PaginationsComponent";
-import { Popover, Space, Table } from "antd";
+import { Col, Popover, Row, Space, Table, Tag } from "antd";
 import { IFlight } from "../../models/flights";
 import { ColumnsType } from "antd/es/table";
 import { IFilterFlights } from "../../api/flights/flights.intefaces";
@@ -16,11 +16,20 @@ import { StatusRus } from "../../utils/init/status";
 import { ExclamationCircleOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { ITAircrafts } from "../../models/Thesaurus/TAircrafts";
-
+import imgTerminal from "../../images/terminal.jpeg"
+import Title from "antd/es/typography/Title";
+import { statusColor } from "../../utils/statusColor";
 interface IFlightsModel extends IFlight {
     key: number;
 }
 
+const colFirstStyle: React.CSSProperties = {
+    padding: '20px'
+}
+const imgStyle: React.CSSProperties = {
+    borderRadius: '10px',
+    width: '100%',
+}
 export const Flights = () => {
 
     const [error, setError] = useState<IApiError>();
@@ -79,7 +88,7 @@ export const Flights = () => {
 
         return (
             <Popover content={content}>
-                <ExclamationCircleOutlined style={{ marginLeft: '10px' }} />
+                <ExclamationCircleOutlined style={{ marginLeft: '10px', color: '##ad2102' }} />
             </Popover>
         )
     }
@@ -96,6 +105,25 @@ export const Flights = () => {
         ) : <span>нет данных</span>
     }
 
+
+    const departureInfo = (actualDeparture: string, code: string): JSX.Element => {
+        if (actualDeparture) {
+            return (
+                <Popover
+                    placement='right'
+                    content={infoDeparture(actualDeparture)}>
+                    <span>{getNameAirport(code)}</span>
+                    <QuestionCircleOutlined
+                        style={{ marginLeft: '10px', color: '#002c8c' }} />
+                </Popover>
+            )
+        }
+
+        return (
+            <span>{getNameAirport(code)}</span>
+        );
+    }
+
     const flightsColumns: ColumnsType<IFlightsModel> = [
         {
             key: 'flightNo',
@@ -110,13 +138,7 @@ export const Flights = () => {
             render: (code, { actualDeparture, scheduledDeparture }) =>
             (
                 <>
-                    <Popover
-                        placement='right'
-                        content={infoDeparture(actualDeparture)}>
-                        <span>{getNameAirport(code)}</span>
-                        <QuestionCircleOutlined
-                            style={{ marginLeft: '10px' }} />
-                    </Popover>
+                    {departureInfo(actualDeparture, code)}
                     {delayDeparture(scheduledDeparture, actualDeparture)}
                 </>
             )
@@ -142,10 +164,17 @@ export const Flights = () => {
 
         },
         {
+            key: 'scheduledArrival',
+            title: 'время',
+            dataIndex: 'scheduledArrival',
+            render: date => <span>{moment(date).format('DD.MM.YYYY HH:MM')}</span>
+
+        },
+        {
             key: 'status',
             title: 'статус',
             dataIndex: 'status',
-            render: status => <span>{StatusRus(status)}</span>
+            render: status => <Tag color={statusColor(status)}>{StatusRus(status)}</Tag>
 
         }]
 
@@ -166,17 +195,31 @@ export const Flights = () => {
 
     return (
         <>
-            <FilterFlights search={filterSubmit} />
-            {(error) ?
-                <ErrorComponent error={error} />
-                : <>
-                    <Table
-                        columns={flightsColumns}
-                        dataSource={flights}
-                        pagination={false}
-                        loading={store.loading} />
-                    <PaginationsComponent onChange={(p) => onPaginationChange(p)} pagination={pagination} />
-                </>}
+            <Row>
+                <Col span={6} style={colFirstStyle}>
+                    <img src={imgTerminal} style={imgStyle} />
+                </Col>
+                <Col span={18}>
+                    <Title level={3}>Онлайн табло</Title>
+                    <FilterFlights search={filterSubmit} />
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    {(error) ?
+                        <ErrorComponent error={error} />
+                        : <>
+                            <Table
+                                columns={flightsColumns}
+                                dataSource={flights}
+                                pagination={false}
+                                loading={store.loading}
+                                scroll={{ y: 500 }}
+                                style={{ width: '100%' }} />
+                            <PaginationsComponent onChange={(p) => onPaginationChange(p)} pagination={pagination} />
+                        </>}
+                </Col>
+            </Row>
         </>
     )
 }

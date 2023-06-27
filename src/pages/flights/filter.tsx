@@ -33,7 +33,6 @@ export const FilterFlights = (props: IProps) => {
 
     return (
         <>
-            <Title level={5}>фильтр</Title>
             <Spin spinning={loading}>
 
                 <Space>
