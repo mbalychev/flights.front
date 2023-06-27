@@ -1,10 +1,11 @@
 import Title from "antd/es/typography/Title"
-import { Button, Form, Select, Space, Spin } from 'antd';
+import { AutoComplete, Button, Form, Input, Select, Space, Spin } from 'antd';
 import { IFilterFlights } from '../../api/flights/flights.intefaces';
 import { useEffect, useMemo, useState } from "react";
 import { ITAirport } from "../../models/Thesaurus/TAiport";
 import { useThesaurus } from '../../hooks/thesaurus';
 import { Status } from "../../components/common/Status";
+import { findFlightsNum } from "../../api/thesaurus/thesaurus";
 
 interface IProps {
     search: (filter: IFilterFlights) => void;
@@ -15,8 +16,8 @@ export const FilterFlights = (props: IProps) => {
 
     const [filter, setFilter] = useState<IFilterFlights>();
     const { airports: { ready, airportsState, isLoading } } = useThesaurus();
-    const [airports, setAiports] = useState<ITAirport[]>([]);
-
+    const [airports, setAiports] = useState<ITAirport[]>();
+    const [flightsNumber, setFlightsNumber] = useState<{ value: string }[]>([]);
     const loading = useMemo((): boolean => {
         return isLoading;;
     }, [isLoading])
@@ -29,6 +30,19 @@ export const FilterFlights = (props: IProps) => {
 
     const search = (values: IFilterFlights) => {
         props.search(values);
+    }
+
+    const searchFlightsNum = async (num: string) => {
+
+        if (num) {
+            const resp = await findFlightsNum(num);
+
+            let obj: { value: string }[] = [];
+            (resp as string[]).forEach(n => {
+                obj.push({ value: n });
+            });
+            setFlightsNumber(obj);
+        }
     }
 
     return (
@@ -63,6 +77,14 @@ export const FilterFlights = (props: IProps) => {
                                     { value: 'Delayed', label: 'Отложенный' },
                                     { value: 'Scheduled', label: 'Планируется' }
                                 ]} />
+                        </Form.Item>
+                        <Form.Item
+                            name='number'
+                            label='№ рейса'>
+                            <AutoComplete
+                                options={flightsNumber}
+                                onSearch={(num) => searchFlightsNum(num)}
+                                style={{ width: '200px' }} />
                         </Form.Item>
                         <Form.Item>
                             <Button

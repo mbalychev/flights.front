@@ -5,4 +5,5 @@ export interface IFilterFlights {
   status?: string;
   scheduledArriveMin?: string;
   scheduledArriveMax?: string;
+  number?: string;
 }

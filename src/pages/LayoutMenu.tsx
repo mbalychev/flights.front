@@ -24,7 +24,7 @@ export const LayoutMenu = () => {
     {
       key: '/flights',
       icon: <MdOutlineConnectingAirports style={iconStyle} />,
-      label: 'Онлайн табло',
+      label: 'Все рейсы',
     },
     {
       key: '/bookings',
@@ -40,7 +40,7 @@ export const LayoutMenu = () => {
   return (
     <Menu
       theme="light"
-      style={{ background: 'rgba(0, 0, 0, 0)' }}
+      style={{ background: 'rgba(0, 0, 0, 0)', textAlign: 'left' }}
       mode="inline"
       items={items} onClick={({ key, keyPath }) => select(keyPath.toString())}>
     </Menu >

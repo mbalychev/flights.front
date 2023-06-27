@@ -21,3 +21,11 @@ export const getTAircrafts = async (): Promise<ITAircrafts[]> => {
 
     return resp as ITAircrafts[];
 }
+
+export const findFlightsNum = async (num: string): Promise<string[]> => {
+    const resp = await requestGet<string[] | IApiError>(`/api/Thesaurus/flightsNumber/${num}`);
+
+    if ('error' in resp) { return []; }
+
+    return resp;
+} 

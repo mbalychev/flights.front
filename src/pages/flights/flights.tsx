@@ -19,6 +19,7 @@ import { ITAircrafts } from "../../models/Thesaurus/TAircrafts";
 import imgTerminal from "../../images/terminal.jpeg"
 import Title from "antd/es/typography/Title";
 import { statusColor } from "../../utils/statusColor";
+import { IoIosAirplane } from "../../../node_modules/react-icons/io"
 interface IFlightsModel extends IFlight {
     key: number;
 }
@@ -153,7 +154,8 @@ export const Flights = () => {
         {
             key: 'arrival',
             dataIndex: '',
-            render: code => <span>{'->'}</span>
+            width: '5%',
+            render: code => <IoIosAirplane />
 
         },
         {
@@ -216,7 +218,9 @@ export const Flights = () => {
                                 loading={store.loading}
                                 scroll={{ y: 500 }}
                                 style={{ width: '100%' }} />
-                            <PaginationsComponent onChange={(p) => onPaginationChange(p)} pagination={pagination} />
+                            <PaginationsComponent
+                                onChange={(p) => onPaginationChange(p)}
+                                pagination={pagination}/>
                         </>}
                 </Col>
             </Row>

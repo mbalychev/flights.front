@@ -24,11 +24,15 @@ export const PaginationsComponent = (props: IPaginationComponent) => {
     }
 
     return (
-        <Pagination
-            showSizeChanger
-            onChange={(p, s) => changePagionation(p, s)}
-            current={pagination.page}
-            pageSize={pagination.onPage ?? 10}
-            total={pagination.total} />
+        <div
+            style={{ width: '100%', textAlign: 'right' }}>
+
+            <Pagination
+                showSizeChanger
+                onChange={(p, s) => changePagionation(p, s)}
+                current={pagination.page}
+                pageSize={pagination.onPage ?? 10}
+                total={pagination.total} />
+        </div>
     )
 }
