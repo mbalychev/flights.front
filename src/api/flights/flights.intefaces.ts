@@ -1,3 +1,4 @@
+import { SortType } from "../../models/flightSort";
 import { IPagination } from "../../models/pagination";
 
 export interface IFilterFlights {
@@ -6,4 +7,5 @@ export interface IFilterFlights {
   scheduledArriveMin?: string;
   scheduledArriveMax?: string;
   number?: string;
+  sort?: SortType;
 }

@@ -5,7 +5,7 @@ import { getFlightsFx, useFlights, setPaginationFx } from '../../store/flights';
 import { FilterFlights } from "./filter";
 import { PaginationInit } from "../../utils/init/paginations";
 import { PaginationsComponent } from "../../components/common/PaginationsComponent";
-import { Col, Popover, Row, Space, Table, Tag } from "antd";
+import { Breadcrumb, Col, Popover, Row, Space, Table, Tag } from "antd";
 import { IFlight } from "../../models/flights";
 import { ColumnsType } from "antd/es/table";
 import { IFilterFlights } from "../../api/flights/flights.intefaces";
@@ -128,7 +128,7 @@ export const Flights = () => {
     const flightsColumns: ColumnsType<IFlightsModel> = [
         {
             key: 'flightNo',
-            title: 'No',
+            title: 'рейс',
             dataIndex: 'flightNo',
             render: nom => <span>{nom}</span>
         },
@@ -198,11 +198,11 @@ export const Flights = () => {
     return (
         <>
             <Row>
-                <Col span={6} style={colFirstStyle}>
+                <Col xl={6} lg={12} md={24} style={colFirstStyle}>
                     <img src={imgTerminal} style={imgStyle} />
                 </Col>
-                <Col span={18}>
-                    <Title level={3}>Онлайн табло</Title>
+                <Col xl={18} lg={12} md={24}>
+                    <Title level={3}>Просмотр рейсов</Title>
                     <FilterFlights search={filterSubmit} />
                 </Col>
             </Row>
@@ -220,7 +220,7 @@ export const Flights = () => {
                                 style={{ width: '100%' }} />
                             <PaginationsComponent
                                 onChange={(p) => onPaginationChange(p)}
-                                pagination={pagination}/>
+                                pagination={pagination} />
                         </>}
                 </Col>
             </Row>

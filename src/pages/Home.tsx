@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import imgAirport from "../images/airport.jpeg"
 import { Col, Row, Table } from "antd"
+import Title from "antd/es/typography/Title"
 
 const colFirstStyle: React.CSSProperties = {
     padding: '20px'
@@ -19,7 +20,7 @@ export const Home = () => {
                     <img src={imgAirport} style={imgStyle} />
                 </Col>
                 <Col span={18}>
-                    <h2>Home</h2>
+                    <Title level={3}>Home</Title>
                     <Link to={'/flights'}>
                         Организации
                     </Link>

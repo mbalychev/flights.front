@@ -68,7 +68,7 @@ export const Router = () => {
                         </Routes>
                     </Content>
                 </Layout>
-                <Footer style={footerStyle}>Footer</Footer>
+                <Footer style={footerStyle}><span>copyRight - MikhailBalychev - 2023г.</span></Footer>
             </Layout>
         </BrowserRouter>
     )
