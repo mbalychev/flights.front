@@ -48,9 +48,9 @@ export const FilterFlights = (props: IProps) => {
     return (
         <>
             <Spin spinning={loading}>
-
                 <Space>
                     <Form
+                        initialValues={{ status: undefined }}
                         onFinish={search}
                         layout='inline'>
                         <Form.Item
@@ -63,13 +63,10 @@ export const FilterFlights = (props: IProps) => {
                         <Form.Item
                             name='status'
                             label='статус'>
-                            {/* не передает значение */}
-                            {/* <Status width={`200px`} /> */}
                             <Select
                                 style={{ width: '100px' }}
-                                defaultValue={null}
                                 options={[
-                                    { value: null, label: 'Все' },
+                                    { value: undefined, label: 'Все' },
                                     { value: 'Departed', label: 'Отбыл' },
                                     { value: 'Arrived', label: 'Прибыл' },
                                     { value: 'On Time', label: 'Вовремя' },
