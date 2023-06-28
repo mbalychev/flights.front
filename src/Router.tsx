@@ -20,20 +20,20 @@ const footerStyle: React.CSSProperties = {
     textAlign: 'center',
     marginBottom: 'auto',
     color: '#fff',
-    height: '3vh',
+    height: '5vh',
     backgroundColor: '#3a427830',
 };
 const headerStyle: React.CSSProperties = {
     textAlign: 'center',
     color: '#fff',
-    height: '3vh',
+    height: '5vh',
     fontSize: 'small',
     backgroundColor: '#3a427830',
 };
 
 const contentStyle: React.CSSProperties = {
     textAlign: 'left',
-    height: '94vh',
+    height: '90vh',
     color: '#01081d',
     padding: '30px', overflow: 'hidden',
     backgroundColor: '#dbddea30',
