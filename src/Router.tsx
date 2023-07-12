@@ -10,6 +10,7 @@ import { Bookings } from './pages/bookings/bookings';
 import { Layout } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
+import Title from 'antd/es/typography/Title';
 
 export const links = {
     flight: (id: number) => `/flights/${id}`,
@@ -25,12 +26,11 @@ const footerStyle: React.CSSProperties = {
 };
 const headerStyle: React.CSSProperties = {
     textAlign: 'center',
-    color: '#fff',
+    color: '#141920',
     height: '5vh',
     fontSize: 'small',
     backgroundColor: '#3a427830',
 };
-
 const contentStyle: React.CSSProperties = {
     textAlign: 'left',
     height: '90vh',
@@ -49,7 +49,11 @@ export const Router = () => {
     return (
         <BrowserRouter>
             <Layout>
-                <Header style={headerStyle}>Header</Header>
+                <Header style={headerStyle}>
+                    <Title level={5} style={{ marginTop: '10px' }}>
+                        Информационная панель "Полёты"
+                    </Title>
+                </Header>
                 <Layout hasSider>
                     <Sider style={siderStyle}>
                         <LayoutMenu />
@@ -70,6 +74,6 @@ export const Router = () => {
                 </Layout>
                 <Footer style={footerStyle}><span>copyRight - MikhailBalychev - 2023г.</span></Footer>
             </Layout>
-        </BrowserRouter>
+        </BrowserRouter >
     )
 }

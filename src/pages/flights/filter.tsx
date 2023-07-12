@@ -7,7 +7,7 @@ import { useThesaurus } from '../../hooks/thesaurus';
 import { Status } from "../../components/common/Status";
 import { findFlightsNum } from "../../api/thesaurus/thesaurus";
 import { SortType } from "../../models/flightSort";
-
+import { purple } from '@ant-design/colors';
 interface IProps {
     search: (filter: IFilterFlights) => void;
 }
@@ -120,7 +120,7 @@ export const FilterFlights = (props: IProps) => {
                                 <Button
                                     htmlType="submit"
                                     type='primary'
-                                    style={{ width: '100%' }}> найти </Button>
+                                    style={{ width: '100%', backgroundColor: '#3d2f4f', borderColor: '#0d031c' }}> найти </Button>
                             </Form.Item>
                         </Col>
                     </Row>

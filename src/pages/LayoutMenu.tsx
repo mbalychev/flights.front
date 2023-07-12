@@ -1,12 +1,9 @@
-import { Layout, Menu } from "antd";
+import { Menu, MenuProps } from "antd";
 import React from "react";
-import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 import { MdOutlineConnectingAirports } from 'react-icons/md';
-import { PiTicketDuotone } from 'react-icons/pi';
-import { CiAirportSign1 } from 'react-icons/ci';
-
-const { Header } = Layout;
+import { PiTicketDuotone, PiAirplaneTilt, PiBookBold } from 'react-icons/pi';
+import { LiaHomeSolid } from 'react-icons/lia';
 
 const iconStyle: React.CSSProperties = {
   fontSize: '24px',
@@ -15,11 +12,23 @@ const iconStyle: React.CSSProperties = {
 
 export const LayoutMenu = () => {
   const navigate = useNavigate();
-  const items = [
+
+  const items: MenuProps['items'] = [
     {
       key: '/',
-      icon: <CiAirportSign1 style={iconStyle} />,
+      icon: <LiaHomeSolid style={iconStyle} />,
       label: 'Домашняя'
+    },
+    {
+      key: 'thesaurus',
+      icon: <PiBookBold style={iconStyle} />,
+      label: 'справочник',
+      children: [
+        {
+          key: '/airplans',
+          icon: <PiAirplaneTilt style={iconStyle} />,
+          label: 'Возд. суда',
+        }]
     },
     {
       key: '/flights',

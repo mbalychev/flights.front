@@ -25,7 +25,7 @@ export const PaginationsComponent = (props: IPaginationComponent) => {
 
     return (
         <div
-            style={{ width: '100%', textAlign: 'right' }}>
+            style={{ width: '100%', textAlign: 'right', margin: '10px   ' }}>
 
             <Pagination
                 showSizeChanger
