@@ -1,3 +1,4 @@
+import '../../css/flights.filter.css'
 import Title from "antd/es/typography/Title"
 import { AutoComplete, Button, Col, Form, Input, Row, Select, Space, Spin } from 'antd';
 import { IFilterFlights } from '../../api/flights/flights.intefaces';
@@ -8,6 +9,7 @@ import { Status } from "../../components/common/Status";
 import { findFlightsNum } from "../../api/thesaurus/thesaurus";
 import { SortType } from "../../models/flightSort";
 import { purple } from '@ant-design/colors';
+import { SearchOutlined } from '@ant-design/icons';
 interface IProps {
     search: (filter: IFilterFlights) => void;
 }
@@ -46,33 +48,28 @@ export const FilterFlights = (props: IProps) => {
     }
 
     return (
-        <div style={{ marginTop: '20px' }}>
-
+        <div style={{width: '100%'}}>
             <Spin spinning={loading}>
                 <Form
-
                     initialValues={{ status: undefined }}
                     onFinish={search}>
-
-                    <Row>
-                        <Col xxl={7} xl={10} lg={24}>
+                    <div className='filterPanel'>
+                        <div className='inputDivMax'>
+                            <div className='inputLabel'>назначение</div>
                             <Form.Item
                                 name='arrival'
-                                label='место назначения'
-                                labelCol={{ xl: { span: 9 }, lg: { span: 12 } }}>
+                                className='inputPanel'>
                                 <Select
                                     options={airports?.map(x => ({ value: x.code, label: x.name }))}
-                                    style={{ width: '200px' }} clearIcon={true} />
+                                    clearIcon={true} />
                             </Form.Item>
-                        </Col>
-                        <Col xxl={4} xl={8} lg={24}>
+                        </div>
+                        <div className='inputDivMin'>
+                            <div className='inputLabel'>статус</div>
                             <Form.Item
-                                name='status'
-                                label='статус'
-                                labelCol={{ xl: { span: 5 }, lg: { span: 12 } }}
-                                style={{ textAlign: 'left' }}>
+                                name='sort'
+                                className='inputPanel'>
                                 <Select
-                                    style={{ width: '150px' }}
                                     options={[
                                         { value: undefined, label: 'Все' },
                                         { value: 'Departed', label: 'Отбыл' },
@@ -83,47 +80,46 @@ export const FilterFlights = (props: IProps) => {
                                         { value: 'Scheduled', label: 'Планируется' }
                                     ]} />
                             </Form.Item>
-                        </Col>
-                        <Col xxl={6} xl={8} lg={24}>
+                        </div>
+                        <div className='inputDivMin'>
+                            <div className='inputLabel'>рейс</div>
                             <Form.Item
                                 name='number'
-                                label='№ рейса'
-                                labelCol={{ xl: { span: 6 }, lg: { span: 12 } }}>
+                                className='inputPanel'>
                                 <AutoComplete
                                     allowClear
                                     defaultValue={undefined}
                                     options={flightsNumber}
-                                    onSearch={(num) => searchFlightsNum(num)}
-                                    style={{ width: '200px' }} />
+                                    onSearch={(num) => searchFlightsNum(num)} />
                             </Form.Item>
-                        </Col>
-                        <Col xxl={6} xl={8} lg={24}>
+                        </div>
+                        <div className='inputDivMin'>
+                            <div className='inputLabel'>сорт.</div>
                             <Form.Item
                                 name='sort'
-                                label='сортировка:'
-                                labelCol={{ xl: { span: 7 }, lg: { span: 12 } }}>
+                                className='inputPanel'>
                                 <Select
                                     allowClear
                                     defaultValue={undefined}
-                                    style={{ width: '150px' }}
                                     options={[
                                         { value: SortType.status, label: 'статус' },
                                         { value: SortType.arrivalTime, label: 'время прилета' },
                                         { value: SortType.departureTime, label: 'время вылета' }
                                     ]} />
                             </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={4} offset={20}>
-                            <Form.Item>
-                                <Button
-                                    htmlType="submit"
-                                    type='primary'
-                                    style={{ width: '100%', backgroundColor: '#3d2f4f', borderColor: '#0d031c' }}> найти </Button>
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
+                    <div className='filterButtonsPanel'>
+                        <Form.Item>
+                            <Button
+                                className='buttonStandart'
+                                htmlType="submit"
+                                type='primary'>
+                                <SearchOutlined />
+                                найти
+                            </Button>
+                        </Form.Item>
+                    </div>
                 </Form>
             </Spin>
         </div>

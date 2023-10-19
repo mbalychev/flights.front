@@ -1,3 +1,4 @@
+import '../../css/flights.css';
 import React, { useEffect, useMemo, useState } from "react";
 import { IPagination } from '../../models/pagination';
 import { IApiError } from "../../models/error";
@@ -24,13 +25,7 @@ interface IFlightsModel extends IFlight {
     key: number;
 }
 
-const colFirstStyle: React.CSSProperties = {
-    padding: '20px'
-}
-const imgStyle: React.CSSProperties = {
-    borderRadius: '10px',
-    width: '100%',
-}
+
 export const Flights = () => {
 
     const [error, setError] = useState<IApiError>();
@@ -197,16 +192,16 @@ export const Flights = () => {
 
     return (
         <>
-            <Row>
-                <Col xl={6} lg={12} md={24} style={colFirstStyle}>
-                    <img src={imgTerminal} style={imgStyle} />
-                </Col>
-                <Col xl={18} lg={12} md={24}>
-                    <Title level={3}>Просмотр рейсов</Title>
+            <div className='divHead'>
+                <div className='divPicture'>
+                    <img src={imgTerminal} className='imgStyle' />
+                </div>
+                <div className='divHeadFilter'>
+                    <Title level={3} className='title'>Просмотр рейсов</Title>
                     <FilterFlights search={filterSubmit} />
-                </Col>
-            </Row>
-            <Row>
+                </div>
+            </div>
+            <div>
                 <Col span={24}>
                     {(error) ?
                         <ErrorComponent error={error} />
@@ -217,13 +212,16 @@ export const Flights = () => {
                                 pagination={false}
                                 loading={store.loading}
                                 scroll={{ y: 500 }}
-                                style={{ width: '100%' }} />
+                                style={{ width: '100%' }} 
+                                expandable={{
+                                    expandedRowRender: (record) => <>{record.actualDeparture}</>
+                                }}/>
                             <PaginationsComponent
                                 onChange={(p) => onPaginationChange(p)}
                                 pagination={pagination} />
                         </>}
                 </Col>
-            </Row>
+            </div>
         </>
     )
 }
