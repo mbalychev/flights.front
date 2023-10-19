@@ -54,3 +54,32 @@
     .title {}
     .divPicture {}
 }
+
+.divExpanded {
+    display: flex;
+    flex-direction: row;
+}
+
+.divDeparture {
+    margin: 10px;
+    margin-left: 30px;
+}
+
+.divArrival {
+    margin: 10px;
+}
+
+.divLabel {
+    display: flex;
+    margin: 0px;
+    flex-direction: row;
+}
+
+.labelComponent {
+    min-width: 80px;
+    flex-grow: 1;
+}
+
+.valueComponent {
+    flex-grow: 2;
+}

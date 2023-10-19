@@ -6,7 +6,7 @@ import { getFlightsFx, useFlights, setPaginationFx } from '../../store/flights';
 import { FilterFlights } from "./filter";
 import { PaginationInit } from "../../utils/init/paginations";
 import { PaginationsComponent } from "../../components/common/PaginationsComponent";
-import { Breadcrumb, Col, Popover, Row, Space, Table, Tag } from "antd";
+import { Typography, Col, Popover, Row, Space, Table, Tag } from "antd";
 import { IFlight } from "../../models/flights";
 import { ColumnsType } from "antd/es/table";
 import { IFilterFlights } from "../../api/flights/flights.intefaces";
@@ -21,6 +21,10 @@ import imgTerminal from "../../images/terminal.jpeg"
 import Title from "antd/es/typography/Title";
 import { statusColor } from "../../utils/statusColor";
 import { IoIosAirplane } from "../../../node_modules/react-icons/io"
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc'
+
+const {Text} = Typography;
 interface IFlightsModel extends IFlight {
     key: number;
 }
@@ -77,7 +81,7 @@ export const Flights = () => {
 
         const delay = moment.duration(moment(actualDeparture).diff(scheduledDeparture));
         const content = (
-            <>
+            <> 
                 {`задержка вылета на ${delay.asMinutes()} минут`}
             </>
         )
@@ -95,7 +99,7 @@ export const Flights = () => {
         return actualDeparture ? (
             <Space>
                 <span>
-                    время вылета: {moment(actualDeparture).format('DD.MM.YYYY')} UTC
+                    время вылета: {dayjs(actualDeparture).format('DD.MM.YYYY HH.mm')}
                 </span>
             </Space>
         ) : <span>нет данных</span>
@@ -164,7 +168,7 @@ export const Flights = () => {
             key: 'scheduledArrival',
             title: 'время',
             dataIndex: 'scheduledArrival',
-            render: date => <span>{moment(date).format('DD.MM.YYYY HH:MM')}</span>
+            render: date => <span>{moment(date).format('DD.MM.YYYY HH:mm')}</span>
 
         },
         {
@@ -190,11 +194,41 @@ export const Flights = () => {
         return await getFlightsFx(filter);
     }
 
+const labledText = (label: string, child: string) => {
+    return <>
+    <Text type='secondary'>{label}</Text>
+    <Text>{child}</Text>
+    </>
+}
+
+const labledDate = (label: string, child: string) => {
+    return <div className='divLabel'>
+    <Text type='secondary' className='labelComponent'>{label}: </Text>
+    <Text  className='valueComponent'>{dayjs(child).format('DD.MM.YYYY HH:mm')}</Text>
+    </div>
+}
+
+    const expandedRow = (model: IFlightsModel) => {
+        return <div className='divExpanded'>
+            <div className='divArrival'>
+                <Title level={5}>Место вылета</Title>
+                {labledDate('планово',model.scheduledDeparture)}
+                {labledDate('фактически',model.actualDeparture)}
+            </div>
+            <div className='divDeparture'>
+                <Title level={5}>Место прибытия</Title>
+                {labledDate('планово',model.scheduledArrival)}
+                {labledDate('фактически',model.actualArrival)}
+            </div>
+        </div>
+
+    }
+
     return (
         <>
             <div className='divHead'>
                 <div className='divPicture'>
-                    <img src={imgTerminal} className='imgStyle' />
+                    {/* <img src={imgTerminal} className='imgStyle' /> */}
                 </div>
                 <div className='divHeadFilter'>
                     <Title level={3} className='title'>Просмотр рейсов</Title>
@@ -212,10 +246,10 @@ export const Flights = () => {
                                 pagination={false}
                                 loading={store.loading}
                                 scroll={{ y: 500 }}
-                                style={{ width: '100%' }} 
+                                style={{ width: '100%' }}
                                 expandable={{
-                                    expandedRowRender: (record) => <>{record.actualDeparture}</>
-                                }}/>
+                                    expandedRowRender: (record) => expandedRow(record)
+                                }} />
                             <PaginationsComponent
                                 onChange={(p) => onPaginationChange(p)}
                                 pagination={pagination} />
