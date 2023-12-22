@@ -9,11 +9,7 @@
         width: 100%;
     }
     .inputDivMax {
-        display: flex;
-        /* justify-content: right; */
-        flex-direction: row;
-        /* width: 26%; */
-        flex-grow: 2;
+        width: 220;
     }
     .inputDivMin {
         display: flex;
@@ -24,7 +20,7 @@
     }
     .inputPanel {
         /* width: 70%; */
-        flex-grow: 0.8;
+        width: 20%;
     }
     .inputLabel {
         text-align: right;

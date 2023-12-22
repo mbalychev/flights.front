@@ -10,6 +10,7 @@ import { findFlightsNum } from "../../api/thesaurus/thesaurus";
 import { SortType } from "../../models/flightSort";
 import { purple } from '@ant-design/colors';
 import { SearchOutlined } from '@ant-design/icons';
+import { sortFlights, statuses } from '../../thesaurus/flights';
 interface IProps {
     search: (filter: IFilterFlights) => void;
 }
@@ -47,81 +48,64 @@ export const FilterFlights = (props: IProps) => {
         }
     }
 
+    const arrivalFilterOption = (value: string, option: { value: string; label: string; } | undefined) => {
+        return (option) ? option.label.toLocaleLowerCase().includes(value.toLowerCase()) : false;
+    }
+
     return (
-        <div style={{width: '100%'}}>
-            <Spin spinning={loading}>
-                <Form
-                    initialValues={{ status: undefined }}
-                    onFinish={search}>
-                    <div className='filterPanel'>
-                        <div className='inputDivMax'>
-                            <div className='inputLabel'>назначение</div>
-                            <Form.Item
-                                name='arrival'
-                                className='inputPanel'>
-                                <Select
-                                    options={airports?.map(x => ({ value: x.code, label: x.name }))}
-                                    clearIcon={true} />
-                            </Form.Item>
-                        </div>
-                        <div className='inputDivMin'>
-                            <div className='inputLabel'>статус</div>
-                            <Form.Item
-                                name='sort'
-                                className='inputPanel'>
-                                <Select
-                                    options={[
-                                        { value: undefined, label: 'Все' },
-                                        { value: 'Departed', label: 'Отбыл' },
-                                        { value: 'Arrived', label: 'Прибыл' },
-                                        { value: 'On Time', label: 'Вовремя' },
-                                        { value: 'Cancelled', label: 'Отменен' },
-                                        { value: 'Delayed', label: 'Отложенный' },
-                                        { value: 'Scheduled', label: 'Планируется' }
-                                    ]} />
-                            </Form.Item>
-                        </div>
-                        <div className='inputDivMin'>
-                            <div className='inputLabel'>рейс</div>
-                            <Form.Item
-                                name='number'
-                                className='inputPanel'>
-                                <AutoComplete
-                                    allowClear
-                                    defaultValue={undefined}
-                                    options={flightsNumber}
-                                    onSearch={(num) => searchFlightsNum(num)} />
-                            </Form.Item>
-                        </div>
-                        <div className='inputDivMin'>
-                            <div className='inputLabel'>сорт.</div>
-                            <Form.Item
-                                name='sort'
-                                className='inputPanel'>
-                                <Select
-                                    allowClear
-                                    defaultValue={undefined}
-                                    options={[
-                                        { value: SortType.status, label: 'статус' },
-                                        { value: SortType.arrivalTime, label: 'время прилета' },
-                                        { value: SortType.departureTime, label: 'время вылета' }
-                                    ]} />
-                            </Form.Item>
-                        </div>
-                    </div>
-                    <div className='filterButtonsPanel'>
-                        <Form.Item>
-                            <Button
-                                className='buttonStandart'
-                                htmlType="submit"
-                                type='primary'>
-                                <SearchOutlined />
-                                найти
-                            </Button>
-                        </Form.Item>
-                    </div>
-                </Form>
-            </Spin>
-        </div>
+        <Spin spinning={loading}>
+            <Form
+                layout="inline"
+                initialValues={{ status: undefined }}
+                onFinish={search}>
+                <Form.Item
+                    name='arrival'
+                    label='Назначение'
+                    className='inputPanel'>
+                    <Select
+                        showSearch
+                        filterOption={arrivalFilterOption}
+                        options={airports?.map(x => ({ value: x.code, label: x.name }))}
+                        clearIcon={true} />
+                </Form.Item>
+                <Form.Item
+                    name='sort'
+                    label='Статус'
+                    className='inputPanel'>
+                    <Select
+                        options={statuses} />
+                </Form.Item>
+                <Form.Item
+                    name='number'
+                    label='Рейс'
+                    className='inputPanel'>
+                    <AutoComplete
+                        allowClear
+                        defaultValue={undefined}
+                        options={flightsNumber}
+                        onSearch={(num) => searchFlightsNum(num)} />
+                </Form.Item>
+                <Form.Item
+                    name='sort'
+                    label='Сортировка'
+                    className='inputPanel'>
+                    <Select
+                        allowClear
+                        defaultValue={undefined}
+                        options={sortFlights} />
+                </Form.Item>
+                <div className='filterButtonsPanel'>
+                    <Form.Item>
+                        <Button
+                            className='buttonStandart'
+                            htmlType="submit"
+                            type='primary'>
+                            <SearchOutlined />
+                            найти
+                        </Button>
+                    </Form.Item>
+                </div>
+            </Form>
+        </Spin>
     )
 }
