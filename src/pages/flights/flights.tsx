@@ -24,19 +24,20 @@ import { IoIosAirplane } from "../../../node_modules/react-icons/io"
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
 
-const {Text} = Typography;
+const { Text } = Typography;
 interface IFlightsModel extends IFlight {
     key: number;
 }
-
 
 export const Flights = () => {
 
     const [error, setError] = useState<IApiError>();
     const [pagination, setPagination] = useState<IPagination>(PaginationInit);
     const store = useFlights();
-    const { airports: { airportsState, ready: readyAirports },
-        aircrafts: { aircraftsState, ready: readyAircrafts } } = useThesaurus();
+    const {
+        airports: { airportsState, ready: readyAirports },
+        aircrafts: { aircraftsState, ready: readyAircrafts }
+    } = useThesaurus();
     const [airports, setAirports] = useState<ITAirport[]>([]);
     const [aircrafts, setAircrafts] = useState<ITAircrafts[]>([]);
 
@@ -81,7 +82,7 @@ export const Flights = () => {
 
         const delay = moment.duration(moment(actualDeparture).diff(scheduledDeparture));
         const content = (
-            <> 
+            <>
                 {`задержка вылета на ${delay.asMinutes()} минут`}
             </>
         )
@@ -194,31 +195,31 @@ export const Flights = () => {
         return await getFlightsFx(filter);
     }
 
-const labledText = (label: string, child: string) => {
-    return <>
-    <Text type='secondary'>{label}</Text>
-    <Text>{child}</Text>
-    </>
-}
+    const labledText = (label: string, child: string) => {
+        return <>
+            <Text type='secondary'>{label}</Text>
+            <Text>{child}</Text>
+        </>
+    }
 
-const labledDate = (label: string, child: string) => {
-    return <div className='divLabel'>
-    <Text type='secondary' className='labelComponent'>{label}: </Text>
-    <Text  className='valueComponent'>{dayjs(child).format('DD.MM.YYYY HH:mm')}</Text>
-    </div>
-}
+    const labledDate = (label: string, child: string) => {
+        return <div className='divLabel'>
+            <Text type='secondary' className='labelComponent'>{label}: </Text>
+            <Text className='valueComponent'>{dayjs(child).format('DD.MM.YYYY HH:mm')}</Text>
+        </div>
+    }
 
     const expandedRow = (model: IFlightsModel) => {
         return <div className='divExpanded'>
             <div className='divArrival'>
                 <Title level={5}>Место вылета</Title>
-                {labledDate('планово',model.scheduledDeparture)}
-                {labledDate('фактически',model.actualDeparture)}
+                {labledDate('планово', model.scheduledDeparture)}
+                {labledDate('фактически', model.actualDeparture)}
             </div>
             <div className='divDeparture'>
                 <Title level={5}>Место прибытия</Title>
-                {labledDate('планово',model.scheduledArrival)}
-                {labledDate('фактически',model.actualArrival)}
+                {labledDate('планово', model.scheduledArrival)}
+                {labledDate('фактически', model.actualArrival)}
             </div>
         </div>
 

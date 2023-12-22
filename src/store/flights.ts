@@ -6,6 +6,7 @@ import { getFlights } from "../api/flights/flights";
 import { IApiError } from "../models/error";
 import { useStore } from "effector-react";
 import { PaginationInit } from "../utils/init/paginations";
+import { domain } from ".";
 
 export interface IStoreFlight {
     flights: IFlight[]; //модели полетов
@@ -14,7 +15,7 @@ export interface IStoreFlight {
     error?: IApiError; //возможные ошибки
 }
 
-const flightsStore = createStore<IStoreFlight>({ flights: [], pagination: PaginationInit, error: undefined, filter: {} as IFilterFlights });
+const flightsStore = createStore<IStoreFlight>({ flights: [], pagination: PaginationInit, error: undefined, filter: {} as IFilterFlights }, { name: 'flightStore' });
 
 const setFlights = createEvent<IFlight[]>('setFlights');
 const setError = createEvent<IApiError | null>('flights:setError');
@@ -23,18 +24,20 @@ const setPagination = createEvent<IPagination>('flights:setPagination');
 
 
 //получить модели полетов
-export const getFlightsFx = createEffect(async (filter: IFilterFlights) => {
+export const getFlightsFx = createEffect({
+    domain: domain,
+    handler: async (filter: IFilterFlights) => {
+        const resp = await getFlights(filter, flightsStore.getState().pagination);
+        setFilter(filter);
 
-    const resp = await getFlights(filter, flightsStore.getState().pagination);
-    setFilter(filter);
+        if ('error' in resp) {
+            setError(resp as IApiError);
+            return;
+        }
 
-    if ('error' in resp) {
-        setError(resp as IApiError);
-        return;
-    }
-
-    return (resp as IFlightResponse);
-
+        return (resp as IFlightResponse);
+    },
+    name: 'getFlights'
 })
 
 //установка модели пагинации (при смене пагинации)
